@@ -18,6 +18,9 @@ const managerPrompt = () => {
             type: 'input',
             message: 'Who is your manager?',
             name: 'managerName'
+            .then(answers => {
+                console.log('Answers:', answers);
+            })
         }, {
             type: 'input',
             message: 'Manager ID?',
@@ -67,8 +70,8 @@ const employeePrompt = () => {
             name: 'AddNewEmployee',
             message: 'Would you like to add more team members?',
         }
+        
     ])
-
 };
 
 const writeFile = data => {
