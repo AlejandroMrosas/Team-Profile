@@ -25,14 +25,23 @@ const managerPrompt = () => {
             type: 'input',
             message: 'Manager ID?',
             name: 'managerId'
+            .then(answers => {
+                console.log('Answers:', answers);
+            })
         }, {
             type: 'input',
             message: 'Manager Email?',
             name: 'managerEmail'
+            .then(answers => {
+                console.log('Answers:', answers);
+            })
         }, {
             type: 'input',
             message: 'Manager Github username?',
             name: 'github'
+            .then(answers => {
+                console.log('Answers:', answers);
+            })
         }, 
     ])
 };
@@ -72,15 +81,25 @@ const employeePrompt = () => {
         }
         
     ])
+    .then((employees) => {
+return fs.writeFile('./dist/index', data, err => {
+    if (err) {
+    console.log(err);
+    return;
+     } else {
+    console.log("Profile created");
+}
+})
+    })
 };
 
-const writeFile = data => {
-    fs.writeFile('./dist/index.html', data, err => {
-        if (err) {
-            console.log(err);
-            return;
-        } else {
-            console.log("Profile created");
-        }
-    })
-}; 
+// const writeFile = data => {
+//     fs.writeFile('./dist/index.html', data, err => {
+//         if (err) {
+//             console.log(err);
+//             return;
+//         } else {
+//             console.log("Profile created");
+//         }
+//     })
+// }; 
