@@ -43,7 +43,12 @@ const managerPrompt = () => {
                 console.log('Answers:', answers);
             })
         }, 
-    ])
+    ]).then(answers => {
+        const newManager = new Manager(answers.name, answers.id, answers.email, answers.github);
+        console.log('newManager');
+        employees.push(managerPrompt);
+        addNewEmployee();
+    })
 };
 
 const employeePrompt = () => {
@@ -80,26 +85,9 @@ const employeePrompt = () => {
             message: 'Would you like to add more team members?',
         }
         
-    ])
-    .then((employees) => {
-return fs.writeFile('./dist/index', data, err => {
-    if (err) {
-    console.log(err);
-    return;
-     } else {
-    console.log("Profile created");
-}
-})
+    ]). then(function(answers) {
+        if (answers.employeePrompt === "Engineer", "Intern"){
+            employeePrompt();
+        };
     })
-};
-
-// const writeFile = data => {
-//     fs.writeFile('./dist/index.html', data, err => {
-//         if (err) {
-//             console.log(err);
-//             return;
-//         } else {
-//             console.log("Profile created");
-//         }
-//     })
-// }; 
+}
