@@ -1,30 +1,27 @@
 {
   "name": "team-profile",
   "version": "1.0.0",
-  "description": "Team Profile",
+  "description": "## Table of Contents: * [Description](#Description) * [Installation](#Installation) * [Usage](#Usage) * [Contributing](#Contributing) * [Tests](#Tests) * [License](#License) * [GitHub](#GitHub) * [Email](#Email)",
   "main": "index.js",
   "directories": {
     "lib": "lib"
   },
   "dependencies": {
     "inquirer": "^8.2.0",
-    "test": "jest"
+    "jest": "^27.4.0"
   },
-  "devDependencies": {
-    "jest": "^27.3.1"
-  },
+  "devDependencies": {},
   "scripts": {
-    "start": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AlejandroMrosas/Team-Profile.git"
   },
-  "author": "Alejandro Machado",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/AlejandroMrosas/Team-Profile/issues"
   },
-  "homepage": "https://github.com/AlejandroMrosas/Team-Profile#readme",
-  "keywords": []
+  "homepage": "https://github.com/AlejandroMrosas/Team-Profile#readme"
 }

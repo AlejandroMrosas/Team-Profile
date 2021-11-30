@@ -38,32 +38,37 @@ function managerPrompt() {
         const officeNumber = data.officeNumber
         const teams = new Manager(name, id, email, officeNumber)
         employees.push(teams)
-        employeePrompt();
+        engineerPrompt();
     });
 }
 
-function employeePrompt() {
+function engineerPrompt() {
     inquirer.prompt ([
         {
             type: 'list',
             name: 'role',
-            message: "Please choose your employee's role",
+            message: "Please choose your engineer's role",
             choices: ['Engineer', 'Intern']
         },
         {
             type: 'input',
             name: 'name',
-            message: "What's the name of the employee?", 
+            message: "What's the name of the engineer?", 
         },
         {
             type: 'input',
             name: 'id',
-            message: "Enter Employee's ID",
+            message: "Enter engineer's ID",
         },
         {
             type: 'input',
             name: 'email',
-            message: "Enter the employee's email.",
+            message: "Enter the engineer's email.",
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message: "Enter the github account for the engineer'"
         },
         {
             type: 'confirm',
@@ -71,7 +76,15 @@ function employeePrompt() {
             message: 'Would you like to add more team members?',
         }
         
-    ])
+    ]).then(function (data) {
+        const name = data.name
+        const id = 2
+        const email = data.email
+        const github = data.github
+        const teams = new Engineer(name, id, email, github)
+        employees.push(teams)
+        internPrompt();
+    });
 }
 
 function internPrompt() {
@@ -108,5 +121,14 @@ function internPrompt() {
             message: 'Would you like to add more team members?',
         }
         
-    ])
+    ]).then(function (data) {
+        const name = data.name
+        const id = 3
+        const email = data.email
+        const school = data.school
+        const teams = new Intern(name, id, email, school)
+        employees.push(teams)
+        managerPrompt();
+})
 }
+
