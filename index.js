@@ -8,8 +8,8 @@ const Intern = require('./lib/Intern');
 
 const employees = []; 
 
-const managerPrompt = () => {
-    return inquirer.prompt ([
+function managerPrompt() {
+    inquirer.prompt ([
         {
             type: 'list',
             message: 'Select Member role.',
@@ -17,42 +17,33 @@ const managerPrompt = () => {
         }, {
             type: 'input',
             message: 'Who is your manager?',
-            name: 'managerName'
-            .then(answers => {
-                console.log('Answers:', answers);
-            })
+            name: 'name'
         }, {
             type: 'input',
-            message: 'Manager ID?',
-            name: 'managerId'
-            .then(answers => {
-                console.log('Answers:', answers);
-            })
+            message: 'What is your Manager id?',
+            name: 'id'
         }, {
             type: 'input',
-            message: 'Manager Email?',
-            name: 'managerEmail'
-            .then(answers => {
-                console.log('Answers:', answers);
-            })
+            message: 'What is your manager email?',
+            name: 'email'
         }, {
             type: 'input',
-            message: 'Manager Github username?',
-            name: 'github'
-            .then(answers => {
-                console.log('Answers:', answers);
-            })
+            message: 'What is your manager phone number?',
+            name: 'officeNumber'
         }, 
-    ]).then(answers => {
-        const newManager = new Manager(answers.name, answers.id, answers.email, answers.github);
-        console.log('newManager');
-        employees.push(managerPrompt);
-        addNewEmployee();
-    })
-};
+    ]).then(function (data) {
+        const name = data.name
+        const id = 1
+        const email = data.email
+        const officeNumber = data.officeNumber
+        const teams = new Manager(name, id, email, officeNumber)
+        employees.push(teams)
+        employeePrompt();
+    });
+}
 
-const employeePrompt = () => {
-    return inquirer.prompt ([
+function employeePrompt() {
+    inquirer.prompt ([
         {
             type: 'list',
             name: 'role',
@@ -61,33 +52,61 @@ const employeePrompt = () => {
         },
         {
             type: 'input',
-            name: 'employeeName',
+            name: 'name',
             message: "What's the name of the employee?", 
         },
         {
             type: 'input',
-            name: 'employeeId',
+            name: 'id',
             message: "Enter Employee's ID",
         },
         {
             type: 'input',
-            name: 'employeeEmail',
+            name: 'email',
             message: "Enter the employee's email.",
         },
         {
-            type: 'input',
-            name: 'github',
-            message: "Enter github username.",
-        },
-        {
             type: 'confirm',
-            name: 'AddNewEmployee',
+            name: 'AddNewMember',
             message: 'Would you like to add more team members?',
         }
         
-    ]). then(function(answers) {
-        if (answers.employeePrompt === "Engineer", "Intern"){
-            employeePrompt();
-        };
-    })
+    ])
+}
+
+function internPrompt() {
+    inquirer.prompt ([
+        {
+            type: 'list',
+            name: 'role',
+            message: "Please choose your employee's role",
+            choices: ['Engineer', 'Intern']
+        },
+        {
+            type: 'input',
+            name: 'name',
+            message: "What's the name of the Intern?", 
+        },
+        {
+            type: 'input',
+            name: 'id',
+            message: "Enter intern's ID",
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message: "Enter the intern's email.",
+        },
+        {
+            type: ":input",
+            name: "school",
+            message: "What school is the intern attending?"
+        },
+        {
+            type: 'confirm',
+            name: 'AddNewMember',
+            message: 'Would you like to add more team members?',
+        }
+        
+    ])
 }
