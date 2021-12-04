@@ -5,130 +5,97 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern'); 
 
+const employeeChoices = [
+    { 
+        type: 'list',
+        name: 'EmployeeType',
+        manager: 'choice employee type',
+        choices: [
+            'Manager',
+            'Engineer',
+            'Intern',
+        ]
+    },
+];
 
-const employees = []; 
-
-function managerPrompt() {
-    inquirer.prompt ([
-        {
-            type: 'list',
-            message: 'Select Member role.',
-            choices: ['Manager', 'Engineer', 'Intern']
-        }, {
+const managerPrompt = [
+         {
             type: 'input',
-            message: 'Who is your manager?',
+            message: 'What is your name?',
             name: 'name'
         }, {
             type: 'input',
-            message: 'What is your Manager id?',
+            message: 'What is your id?',
             name: 'id'
         }, {
             type: 'input',
-            message: 'What is your manager email?',
+            message: 'What is your email?',
             name: 'email'
         }, {
             type: 'input',
-            message: 'What is your manager phone number?',
-            name: 'officeNumber'
-        }, 
-    ]).then(function (data) {
-        const name = data.name
-        const id = 1
-        const email = data.email
-        const officeNumber = data.officeNumber
-        const teams = new Manager(name, id, email, officeNumber)
-        employees.push(teams)
-        engineerPrompt();
-    });
-}
+            message: 'What is your phone number?',
+            name: 'officeNumber',
+        }
+];
 
-function engineerPrompt() {
-    inquirer.prompt ([
-        {
-            type: 'list',
-            name: 'role',
-            message: "Please choose your engineer's role",
-            choices: ['Engineer', 'Intern']
-        },
-        {
-            type: 'input',
-            name: 'name',
-            message: "What's the name of the engineer?", 
-        },
-        {
-            type: 'input',
-            name: 'id',
-            message: "Enter engineer's ID",
-        },
-        {
-            type: 'input',
-            name: 'email',
-            message: "Enter the engineer's email.",
-        },
+        const engineerPrompt = [
         {
             type: 'input',
             name: 'github',
-            message: "Enter the github account for the engineer'"
+            message: "Enter the github account for the employee'"
         },
-        {
-            type: 'confirm',
-            name: 'AddNewMember',
-            message: 'Would you like to add more team members?',
-        }
-        
-    ]).then(function (data) {
-        const name = data.name
-        const id = 2
-        const email = data.email
-        const github = data.github
-        const teams = new Engineer(name, id, email, github)
-        employees.push(teams)
-        internPrompt();
-    });
-}
+];
 
-function internPrompt() {
-    inquirer.prompt ([
+        const internPrompt = [
         {
-            type: 'list',
-            name: 'role',
-            message: "Please choose your employee's role",
-            choices: ['Engineer', 'Intern']
-        },
-        {
-            type: 'input',
-            name: 'name',
-            message: "What's the name of the Intern?", 
-        },
-        {
-            type: 'input',
-            name: 'id',
-            message: "Enter intern's ID",
-        },
-        {
-            type: 'input',
-            name: 'email',
-            message: "Enter the intern's email.",
-        },
-        {
-            type: ":input",
+            type: "input",
             name: "school",
-            message: "What school is the intern attending?"
+            message: "name of your school?"
         },
         {
-            type: 'confirm',
-            name: 'AddNewMember',
-            message: 'Would you like to add more team members?',
+            name: 'exit',
+            Value: 'QUIT'
         }
-        
-    ]).then(function (data) {
-        const name = data.name
-        const id = 3
-        const email = data.email
-        const school = data.school
-        const teams = new Intern(name, id, email, school)
-        employees.push(teams)
-        managerPrompt();
-})
-}
+];
 
+const choices = employeeChoices.concat(managerPrompt, engineerPrompt, internPrompt);
+
+inquirer.prompt(choices).then((answers) => {
+    return JSON.stringify(answers)
+  }).then(results => {
+      console.log(`choices  ${results.choices}`);
+
+      switch(results.choices){
+          case " engineer":
+              console.log("engineer")
+          break;
+          case 'employee':
+              console.log("employee")
+          break;
+          case "intern":
+              console.log("intern")
+          break;
+          case 'quit':
+          default:
+              break;
+      }
+  })
+
+
+// GIVEN a command-line application that accepts user input
+// WHEN I am prompted for my team members and their information
+// THEN an HTML file is generated that displays a nicely formatted team roster based on user input
+// WHEN I click on an email address in the HTML
+// THEN my default email program opens and populates the TO field of the email with the address
+// WHEN I click on the GitHub username
+// THEN that GitHub profile opens in a new tab
+// WHEN I start the application
+// THEN I am prompted to enter the team manager’s name, employee ID, email address, and office number
+// WHEN I enter the team manager’s name, employee ID, email address, and office number
+// THEN I am presented with a menu with the option to add an engineer or an intern or to finish building my team
+// WHEN I select the engineer option
+// THEN I am prompted to enter the engineer’s name, ID, email, and GitHub username, and I am taken back to the menu
+// WHEN I select the intern option
+// THEN I am prompted to enter the intern’s name, ID, email, and school, and I am taken back to the menu
+// WHEN I decide to finish building my team
+// THEN I exit the application, and the HTML is generated

@@ -6,13 +6,9 @@
   "directories": {
     "lib": "lib"
   },
-  "dependencies": {
-    "inquirer": "^8.2.0",
-    "jest": "^27.4.0"
-  },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -23,5 +19,10 @@
   "bugs": {
     "url": "https://github.com/AlejandroMrosas/Team-Profile/issues"
   },
-  "homepage": "https://github.com/AlejandroMrosas/Team-Profile#readme"
+  "homepage": "https://github.com/AlejandroMrosas/Team-Profile#readme",
+  "dependencies": {
+    "inquirer": "^8.2.0",
+    "jest": "^27.4.3",
+    "path": "^0.12.7"
+  }
 }
