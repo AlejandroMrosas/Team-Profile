@@ -1,9 +1,14 @@
 const fs = require('fs'); 
 const inquirer = require('inquirer');
+const path = require('path');
 
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern'); 
+
+const index = path.join(__dirname, 'index.html');
+
+const employees = [];
 
 const employeeChoices = [
     { 
@@ -79,8 +84,17 @@ inquirer.prompt(choices).then((answers) => {
           default:
               break;
       }
-  })
+  });
 
+
+    function webPage() {
+        const template =render(employees);
+        fs.writeFile("./dist/index.html", template, index, function (err) {
+            if (err) {
+                console.log('err');
+            };
+        });
+    }
 
 // GIVEN a command-line application that accepts user input
 // WHEN I am prompted for my team members and their information
