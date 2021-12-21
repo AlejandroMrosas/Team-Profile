@@ -4,13 +4,14 @@ const path = require('path');
 
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
-const Intern = require('./lib/Intern'); 
-
-const index = path.join(__dirname, 'index.html');
+const Intern = require('./lib/Intern');
+const Employee = require('./lib/Employee');
 
 const employees = [];
 
-const employeeChoices = [
+const employeeChoices = () => {
+    return inquirer.prompt(
+    [
     { 
         type: 'list',
         name: 'EmployeeType',
@@ -20,10 +21,12 @@ const employeeChoices = [
             'Engineer',
             'Intern',
         ]
-    },
-];
+    }
+  ])
+};
 
-const managerPrompt = [
+const managerPrompt = () => {
+    return inquirer.prompt([
          {
             type: 'input',
             message: 'What is your name?',
@@ -40,30 +43,70 @@ const managerPrompt = [
             type: 'input',
             message: 'What is your phone number?',
             name: 'officeNumber',
-        }
-];
-
-        const engineerPrompt = [
-        {
-            type: 'input',
-            name: 'github',
-            message: "Enter the github account for the employee'"
+            validate(value) {
+                const pass = value.match(
+                  /^([01]{1})?[-.\s]?\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})\s?((?:#|ext\.?\s?|x\.?\s?){1}(?:\d+)?)?$/i
+                );
+                if (pass) {
+                  return true;
+                }
+          
+                return 'Please enter a valid phone number';
+              },
         },
-];
+    ]
+)}
+        const engineerPrompt = () => {
+        return inquirer.prompt(
+        [
+            {
+                type: 'input',
+                message: 'What is your name?',
+                name: 'name'
+            }, {
+                type: 'input',
+                message: 'What is your id?',
+                name: 'id'
+            }, {
+                type: 'input',
+                message: 'What is your email?',
+                name: 'email'
+            },{
+                type: 'input',
+                name: 'github',
+                message: "Enter the github account for the employee'"
+            },
+    ])
+};
 
-        const internPrompt = [
-        {
-            type: "input",
-            name: "school",
-            message: "name of your school?"
-        },
-        {
-            name: 'exit',
-            Value: 'QUIT'
-        }
-];
+        const internPrompt = () => {
+            return inquirer.prompt(
+            [
+            {
+                type: 'input',
+                message: 'What is your name?',
+                name: 'name'
+            }, {
+                type: 'input',
+                message: 'What is your id?',
+                name: 'id'
+            }, {
+                type: 'input',
+                message: 'What is your email?',
+                name: 'email'
+            }, {
+                type: "input",
+                name: "school",
+                message: "name of your school?"
+            },{
+                name: 'exit',
+                Value: 'QUIT'
+            },
+    ])
+};
 
-const choices = employeeChoices.concat(managerPrompt, engineerPrompt, internPrompt);
+
+const choices = employeeChoices.join(managerPrompt, engineerPrompt, internPrompt);
 
 inquirer.prompt(choices).then((answers) => {
     return JSON.stringify(answers)
@@ -86,15 +129,12 @@ inquirer.prompt(choices).then((answers) => {
       }
   });
 
-
-    function webPage() {
-        const template =render(employees);
-        fs.writeFile("./dist/index.html", template, index, function (err) {
-            if (err) {
-                console.log('err');
-            };
-        });
-    }
+//          const templates =render(employees);
+//         fs.writeFileSync(filePath, templates, err => {
+//             if (err) {
+//                 console.log('err');
+//             };
+//         });
 
 // GIVEN a command-line application that accepts user input
 // WHEN I am prompted for my team members and their information
