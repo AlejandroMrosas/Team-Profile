@@ -7,39 +7,42 @@ const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Employee = require('./lib/Employee');
 
-const employees = [];
+let teamArr = [];
 
 const employeeChoices = () => {
     return inquirer.prompt(
     [
-    { 
-        type: 'list',
-        name: 'EmployeeType',
-        manager: 'choice employee type',
-        choices: [
-            'Manager',
-            'Engineer',
-            'Intern',
+        {
+            type: 'input',
+            message: 'What is your name?',
+            name: 'name'
+        }, 
+        {
+            type: 'input',
+            message: 'What is your id?',
+            name: 'id'
+        }, 
+        {
+            type: 'input',
+            message: 'What is your email?',
+            name: 'email'
+        }, 
+        { 
+            type: 'list',
+            name: 'type',
+            manager: 'choice employee type',
+            choices: [
+                    'Manager',
+                    'Engineer',
+                    'Intern',
         ]
-    }
+      }, 
   ])
 };
 
 const managerPrompt = () => {
     return inquirer.prompt([
-         {
-            type: 'input',
-            message: 'What is your name?',
-            name: 'name'
-        }, {
-            type: 'input',
-            message: 'What is your id?',
-            name: 'id'
-        }, {
-            type: 'input',
-            message: 'What is your email?',
-            name: 'email'
-        }, {
+      , {
             type: 'input',
             message: 'What is your phone number?',
             name: 'officeNumber',
@@ -59,19 +62,7 @@ const managerPrompt = () => {
         const engineerPrompt = () => {
         return inquirer.prompt(
         [
-            {
-                type: 'input',
-                message: 'What is your name?',
-                name: 'name'
-            }, {
-                type: 'input',
-                message: 'What is your id?',
-                name: 'id'
-            }, {
-                type: 'input',
-                message: 'What is your email?',
-                name: 'email'
-            },{
+            {  
                 type: 'input',
                 name: 'github',
                 message: "Enter the github account for the employee'"
@@ -83,45 +74,42 @@ const managerPrompt = () => {
             return inquirer.prompt(
             [
             {
-                type: 'input',
-                message: 'What is your name?',
-                name: 'name'
-            }, {
-                type: 'input',
-                message: 'What is your id?',
-                name: 'id'
-            }, {
-                type: 'input',
-                message: 'What is your email?',
-                name: 'email'
-            }, {
                 type: "input",
                 name: "school",
                 message: "name of your school?"
-            },{
-                name: 'exit',
-                Value: 'QUIT'
             },
+            // {
+            //     name: 'exit',
+            //     Value: 'QUIT'
+            // },
     ])
 };
 
 
-const choices = employeeChoices.join(managerPrompt, engineerPrompt, internPrompt);
+ employeeChoices().then(results => {
+      console.log(results);
 
-inquirer.prompt(choices).then((answers) => {
-    return JSON.stringify(answers)
-  }).then(results => {
-      console.log(`choices  ${results.choices}`);
-
-      switch(results.choices){
-          case " engineer":
-              console.log("engineer")
+      switch(results.type){ 
+          case 'Manager':
+            managerPrompt().then(answers => {
+                console.log(answers);
+                let manager = new Manager(results.name, results.id, results.email, answers.officeNumber);
+                  console.log(manager);
+            });
           break;
-          case 'employee':
-              console.log("employee")
+          case "Engineer":
+            engineerPrompt().then(answers => {
+                console.log(answers);
+                let engineer = new Engineer(results.name, results.id, results.email, answers.github);
+                  console.log(engineer);
+            });
           break;
-          case "intern":
-              console.log("intern")
+          case "Intern":
+              internPrompt().then(answers => {
+                  console.log(answers);
+                  let intern = new Intern(results.name, results.id, results.email, answers.school);
+                  console.log(intern);
+              });
           break;
           case 'quit':
           default:
@@ -129,12 +117,12 @@ inquirer.prompt(choices).then((answers) => {
       }
   });
 
-//          const templates =render(employees);
-//         fs.writeFileSync(filePath, templates, err => {
-//             if (err) {
-//                 console.log('err');
-//             };
-//         });
+        //  const templates =render(employees);
+        // fs.writeFileSync(filePath, templates, err => {
+        //     if (err) {
+        //         console.log('err');
+        //     };
+        // });
 
 // GIVEN a command-line application that accepts user input
 // WHEN I am prompted for my team members and their information
