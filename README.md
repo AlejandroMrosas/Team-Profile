@@ -14,7 +14,7 @@
 This project generates team profiles by name, id, email and guthub accout.
 
 ## Video 
-https://watch.screencastify.com/v/rrhJzxM0gF220t6K1u6r 
+https://watch.screencastify.com/v/AwsQU9mkcANZ5QDNjd41
 
 ## Installation 
 You can go to my github at github.com/AlejandroMrosas/Team-Profile
