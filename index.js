@@ -5,13 +5,14 @@ const path = require('path');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
-const Employee = require('./lib/Employee');
+
+// const OUTPUT_DIR = path.resolve(__dirname, 'output');
+// const outputPath = path.join(OUTPUT_DIR, 'index.html');
 
 let teamArr = [];
 
 const employeeChoices = () => {
-    return inquirer.prompt(
-    [
+    return inquirer.prompt([
         {
             type: 'input',
             message: 'What is your name?',
@@ -42,7 +43,7 @@ const employeeChoices = () => {
 
 const managerPrompt = () => {
     return inquirer.prompt([
-      , {
+        {
             type: 'input',
             message: 'What is your phone number?',
             name: 'officeNumber',
@@ -60,8 +61,7 @@ const managerPrompt = () => {
     ]
 )}
         const engineerPrompt = () => {
-        return inquirer.prompt(
-        [
+        return inquirer.prompt([
             {  
                 type: 'input',
                 name: 'github',
@@ -71,59 +71,92 @@ const managerPrompt = () => {
 };
 
         const internPrompt = () => {
-            return inquirer.prompt(
-            [
+            return inquirer.prompt([
             {
                 type: "input",
                 name: "school",
                 message: "name of your school?"
             },
-            // {
-            //     name: 'exit',
-            //     Value: 'QUIT'
-            // },
     ])
 };
 
+const addAnotherEmployee = () => {
+    return inquirer.prompt([
+    {
+        type: "list",
+        name: "addEmployee",
+        message: "Would you like to add a new employee?",
+        choices: [
+            'yes',
+            'No'
+        ]
+    },
+])
+};
 
+function askQuestions() { 
  employeeChoices().then(results => {
       console.log(results);
-
       switch(results.type){ 
           case 'Manager':
             managerPrompt().then(answers => {
                 console.log(answers);
                 let manager = new Manager(results.name, results.id, results.email, answers.officeNumber);
-                  console.log(manager);
+                  teamArr.push(manager);
+                  addAnotherEmployee().then(answers => {
+                    console.log(answers);
+                 if (answers.addEmployee == "yes") {
+                    askQuestions()
+                 }    
+              });
             });
           break;
           case "Engineer":
             engineerPrompt().then(answers => {
                 console.log(answers);
                 let engineer = new Engineer(results.name, results.id, results.email, answers.github);
-                  console.log(engineer);
-            });
+                teamArr.push(engineer);
+                addAnotherEmployee().then(answers => {
+                    console.log(answers);
+                 if (answers.addEmployee == "yes") {
+                    askQuestions()
+                 }    
+              });
+        });
           break;
           case "Intern":
               internPrompt().then(answers => {
                   console.log(answers);
                   let intern = new Intern(results.name, results.id, results.email, answers.school);
-                  console.log(intern);
+                  teamArr.push(intern);
+                addAnotherEmployee().then(answers => {
+                    console.log(answers);
+                 if (answers.addEmployee == "yes") {
+                    askQuestions()
+                 }
               });
+            });
           break;
-          case 'quit':
+
           default:
-              break;
+            //   writeToFile(outputPath, "output/index.html")
       }
+     
   });
+};
 
-        //  const templates =render(employees);
-        // fs.writeFileSync(filePath, templates, err => {
-        //     if (err) {
-        //         console.log('err');
-        //     };
-        // });
+    function writeToFile(team, data) {
+        console.log(writeToFile)
+        fs.writeFile(team, data, function (err, response) {
+            console.log(response);
+            if (err) {
+                console.log(err);
+            }
+        })
+    }
 
+    askQuestions();
+    
 // GIVEN a command-line application that accepts user input
 // WHEN I am prompted for my team members and their information
 // THEN an HTML file is generated that displays a nicely formatted team roster based on user input
